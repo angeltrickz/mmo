@@ -146,12 +146,12 @@ Game.removePlayer = function(id){
 Game.update = function(){
 
   try {
-
+/*
     if(mirando == "espera"){
       Client.socket.emit('stop',{move:mirando});
     }
     mirando = "espera";
-
+*/
     for (var i in Game.playerMap) {
     game.physics.arcade.collide(Game.playerMap[i], piso);
     }
