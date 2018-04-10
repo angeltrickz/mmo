@@ -5,6 +5,17 @@
 var Client = {};
 Client.socket = io.connect();
 
+
+Client.sendmyid = function(){
+
+    Client.socket.emit('myid');
+};
+
+Client.socket.on('myid',function(data){
+    console.log("my id es: "+data.id)
+    myid = data.id;
+  });
+
 Client.sendTest = function(){
     console.log("test sent");
     Client.socket.emit('test');
@@ -49,6 +60,25 @@ Client.socket.on('allplayers',function(data){
 
   Client.socket.on('follow',function(data){
         Game.follow(data.id,data.x,data.y);
+    });
+
+  Client.socket.on('fire',function(data){
+
+        Game.fire(data.id,data.dr);
+    });
+  Client.socket.on('colisionR',function(data){
+
+        Game.colisionR(data.idenemy,data.idhealth);
+    });
+
+  Client.socket.on('deadR',function(data){
+      console.log("muerto"+data.deadid);
+        Game.deadR(data.deadid);
+    });
+
+  Client.socket.on('supermov',function(data){
+
+        Game.supermov(data.id,data.super,data.dr);
     });
 
     Client.socket.on('remove',function(id){

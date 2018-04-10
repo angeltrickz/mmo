@@ -36,6 +36,12 @@ io.on('connection',function(socket){
             io.emit('move',socket.player);
         });
 
+        socket.on('myid',function(data){
+
+          socket.emit('myid',socket.player);
+
+          });
+
         socket.on('mover',function(data){
 
             io.emit('move',socket.player);
@@ -73,6 +79,37 @@ io.on('connection',function(socket){
           socket.emit('follow',socket.player);
 
           });
+
+        socket.on('fire',function(data){
+
+            socket.player.dr = data.firedirection;
+
+          io.emit('fire',socket.player);
+
+          });
+
+        socket.on('colision',function(data){
+
+
+          io.emit('colisionR',{idenemy:data.idenemy,idhealth:data.idhealth});
+
+          });
+
+          socket.on('dead',function(data){
+
+
+            io.emit('deadR',{deadid:data.deadmyid});
+
+            });
+
+
+          socket.on('supermov',function(data){
+            socket.player.super = data.pos;
+            socket.player.dr = data.direc;
+
+            socket.broadcast.emit('supermov',socket.player);
+
+            });
 
 
 
