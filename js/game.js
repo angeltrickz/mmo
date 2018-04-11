@@ -131,7 +131,7 @@ Game.addNewPlayer = function(id,x,y){
             align: "center"
         });
 
-        Game.textMap[id].anchor.setTo(0.5, 0.5);
+        //Game.textMap[id].anchor.setTo(0.5, 0.5);
 
 
 
@@ -243,7 +243,7 @@ Game.colisionR = function(id,idh){
 
   Game.playerMap[id].health = idh;
   Game.playerMap[id].health -= 5;
-  console.log(Game.playerMap[id].health)
+  //console.log(Game.playerMap[id].health)
 
   if(Game.playerMap[id].health < 1){
     Game.playerMap[id].frame = 1;
@@ -328,7 +328,7 @@ Game.update = function(){
         Game.textMap[i].addColor('#ff0044', 0) ;
       }
 
-      Game.textMap[i].position.x = Game.playerMap[i].position.x;
+      Game.textMap[i].position.x = Game.playerMap[i].position.x+5;
       Game.textMap[i].position.y = Game.playerMap[i].position.y-15;
     }
 
