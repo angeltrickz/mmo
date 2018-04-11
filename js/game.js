@@ -30,13 +30,14 @@ Game.init = function(){
 };
 
 Game.preload = function() {
-    game.load.image('sprite','assets/sprites/sprite.png');
+
     game.load.spritesheet('personaje', 'assets/sprites/mono.png', 47, 64,11);
     game.load.spritesheet('piso','assets/map/piso.png');
     game.load.image('background','assets/map/background.jpg');
-    game.load.tilemap('map', 'assets/map/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('ground_1x1', 'assets/map/ground_1x1.png');
     game.load.image('bullet', 'assets/sprites/shmup-bullet.png');
+    game.load.image('tileset','assets/map/fondomapa.jpg')
+    game.load.tilemap('map','assets/map/mapammo6.csv');
 };
 
 Game.create = function(){
@@ -52,27 +53,33 @@ Game.create = function(){
     var testKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     testKey.onDown.add(Client.sendTest, this);
 
-    game.add.tileSprite(0, 0, 1920, 550, 'background');
+    game.add.tileSprite(0, 0, 1680, 1050, 'background');
 
    // tilesheet is the key of the tileset in map's JSON file
 
     Client.askNewPlayer();
     Client.sendmyid();
 
-      sprite = game.add.sprite(510,270,'sprite');
-      game.physics.enable(sprite, Phaser.Physics.ARCADE);
 
     ///
+    map = game.add.tilemap('map', 64, 64);
 
-    map = game.add.tilemap('map');
+        //  Now add in the tileset
+        map.addTilesetImage('tileset');
 
-    map.addTilesetImage('ground_1x1');
+        map.setCollisionBetween(1,24);
+        map.setCollisionBetween(26,231);
+        map.setTileIndexCallback(25, Game.hitCoin, this);
 
-    layer = map.createLayer('Tile Layer 1');
 
-    layer.resizeWorld();
+        map.setCollision(16);
 
-    map.setCollisionBetween(1, 12);
+
+        //  Create our layer
+        layer = map.createLayer(0);
+
+        //  Resize the world
+        layer.resizeWorld();
     ///
 /*
     piso = game.add.sprite(0, 500, 'piso');
@@ -102,6 +109,10 @@ text = game.add.text(30, 30, "presiona F para disparar", {
 
 Game.getCoordinates = function(layer,pointer){
     Client.sendClick(pointer.worldX,pointer.worldY);
+};
+Game.hitCoin = function(){
+    console.log("ctmre");
+    
 };
 
 Game.addNewPlayer = function(id,x,y){
@@ -341,7 +352,7 @@ Game.update = function(){
     for (var i in Game.playerMap) {
     //game.physics.arcade.collide(Game.playerMap[i], piso);
     game.physics.arcade.collide(Game.playerMap[i], layer);
-    game.physics.arcade.collide(sprite, layer);
+
   };
 /*
   movimiento = Game.playerMap[myid].x;
